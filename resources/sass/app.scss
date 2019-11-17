@@ -1,15 +1,20 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+// @import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
+// FA5
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+
+// Pretty checkbox
+@import '~pretty-checkbox/src/pretty-checkbox.scss';
 
 table {
     tbody {
-        tr{
+        tr {
             td {
                 user-select: none;
                 cursor: pointer;
@@ -30,6 +35,37 @@ table {
     width: 100%;
 }
 
+/*
+ *  STYLE 7
+ */
+
+.diagnostic-content::-webkit-scrollbar-track,
+.table-fixed tbody::-webkit-scrollbar-track {
+    //-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #8cc1d1;
+    border-radius: 3px;
+}
+
+.diagnostic-content::-webkit-scrollbar,
+.table-fixed tbody::-webkit-scrollbar {
+    width: 10px;
+    background-color: #a3bee2;
+}
+
+.diagnostic-content::-webkit-scrollbar-thumb,
+.table-fixed tbody::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.44, #8fcfdc),
+        color-stop(0.72, #87d9db),
+        color-stop(0.86, #85dbd9)
+    );
+    cursor: pointer;
+}
+
 .table-fixed thead,
 .table-fixed tbody,
 .table-fixed tr,
@@ -45,12 +81,96 @@ table {
     position: relative;
 
     &::after {
-        content: '';
+        content: "";
         clear: both;
         display: block;
     }
 }
 
+.table-fixed tbody tr.selected {
+    th,
+    td {
+        background: #86ceda;
+        font-size: 1.4em;
+        font-weight: 700;
+    }
+}
+
+.table-fixed tbody tr {
+    th,
+    td {
+        border-top: none;
+        border-bottom: 1px solid #a6baea6e;
+        color: #495057;
+        font-size: 1.35em;
+        transition: all 0.3s ease-in-out;
+    }
+    th {
+        text-align: center;
+    }
+    &:hover {
+        td,
+        th {
+            background: #8fc5d766;
+            font-size: 1.4em;
+            font-weight: 700;
+        }
+        .pretty .state label:before {
+            border-color: #5cb85c;
+        }
+    }
+}
+
+.card {
+    background: #92cedd3d;
+    border: none;
+    box-shadow: 5px 15px 20px 0px rgba(0, 0, 0, 0.4);
+
+    .card-header {
+        font-size: 1.5em;
+        text-align: center;
+    }
+    .card-body {
+    }
+}
+
+.diagnostic-box {
+    .card {
+        .card-body {
+            .diagnostic-content {
+                height: 400px;
+                overflow-y: auto;
+                width: 100%;
+                padding: 15px;
+                .diagnostic-content-info {
+                    margin-top: 25%;
+                    text-align: center;
+                    font-size: 1.5em;
+                    i {
+                        font-size: 4em;
+                    }
+                }
+                .item {
+                    font-size: 1.25em;
+                    span {
+                        color: red;
+                        margin-right: 10px;
+                        i {
+                            filter: drop-shadow(0px 2px 2px rgb(243, 46, 46));
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.table {
+    margin: 0;
+}
+.pretty .state label:before {
+    border-color: #7fd5d2;
+    transition: all .3s ease-in-out;
+}
 /*
 *
 * ==========================================
@@ -61,8 +181,7 @@ table {
 
 body {
     background: #74ebd5;
-    background: -webkit-linear-gradient(to right, #74ebd5, #ACB6E5);
-    background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    background: -webkit-linear-gradient(to right, #74ebd5, #acb6e5);
+    background: linear-gradient(to right, #74ebd5, #acb6e5);
     min-height: 100vh;
-
 }
