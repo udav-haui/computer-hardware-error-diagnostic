@@ -26,6 +26,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.11.2",
         "font-awesome": "^4.7.0",
-        "pretty-checkbox": "^3.0.3"
+        "pretty-checkbox": "^3.0.3",
+        "sweetalert2": "^9.3.11"
     }
 }

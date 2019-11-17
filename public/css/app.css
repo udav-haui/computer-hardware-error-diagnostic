@@ -12181,6 +12181,10 @@ table tbody tr td {
 .card .card-header {
   font-size: 1.5em;
   text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .diagnostic-box .card .card-body .diagnostic-content {
@@ -12194,6 +12198,7 @@ table tbody tr td {
   margin-top: 25%;
   text-align: center;
   font-size: 1.5em;
+  color: #49505b;
 }
 
 .diagnostic-box .card .card-body .diagnostic-content .diagnostic-content-info i {

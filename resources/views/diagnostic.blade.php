@@ -37,7 +37,10 @@
 
                 <div class="card-body">
                     <div class="diagnostic-content">
-                        <p class="diagnostic-content-info"><i class="fas fa-info-circle"></i><br />Vui lòng chọn các tình trạng máy tính của bạn !!!</p>
+                        <p class="diagnostic-content-info">
+                            <i class="fas fa-info-circle"></i><br />
+                            Vui lòng chọn các tình trạng máy tính của bạn !!!
+                        </p>
                     </div>
                 </div>
             </div>
