@@ -8,26 +8,26 @@
                 <div class="card-header">Các triệu chứng</div>
 
                 <div class="card-body">
-                    <table>
+                    <div class="table-responsive">
+                    <table class="table table-fixed record_table">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th>Triệu chứng</th>
+                                <th scope="col" class="col-1">#</th>
+                                <th scope="col" class="col-11">Triệu chứng</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($symptoms as $symptom)
                                 <tr>
-                                    <td>
-                                        <input class="chkbox" type="checkbox" name="" id="" data-value="{{ $symptom->symptom_code }}">
-                                    </td>
-                                    <td>
-                                        <strong>{{ $symptom->symptom_code }} - </strong>{{ $symptom->description }}
-                                    </td>
+                                    <th scope="row" class="col-1">
+                                        <input class="chkbox" type="checkbox" name="check-{{ $symptom->symptom_code }}" id="" data-value="{{ $symptom->symptom_code }}">
+                                    </th>
+                                    <td class="col-11">{{ $symptom->description }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                </div>
                     <a href="javascript:void(0);" id="analysisBtn">Phân tích</a>
                 </div>
             </div>
