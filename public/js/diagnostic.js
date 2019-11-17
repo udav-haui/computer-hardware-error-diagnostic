@@ -30,19 +30,21 @@ $(document).ready(function() {
         if ($(this).is(":checked")) {   // nếu bất kỳ checkbox nào đc chọn
             symptoms.push($(this).attr("data-value"));  // Đẩy mã triệU chứng vào tập mã triệU chứng (GT)
             apiCallToAnalysis(symptoms);    // Gọi hàm phân tích
+            // DOM
             $(this).parent().parent().parent().toggleClass("selected");    // thêm/xoá class seleted
-            clicked_alert.pause();  
-            clicked_alert.currentTime = 0.0;
-            clicked_alert.play();
+            $('.delete-all-btn a strong').text(`(${symptoms.length})`);
+            // END DOM
+            playSound(clicked_alert);
         } else {
             // nếu bỏ check thì xoá mã triệu chứng thông qua hàm xoá 
             // phần tử khỏi array
             symptoms = arrayRemove(symptoms, $(this).attr("data-value"));
+            // DOM
             $(this).parent().parent().parent().toggleClass("selected");    // thêm/xoá class seleted
+            $('.delete-all-btn a strong').text(`(${symptoms.length})`);
+            // END DOM
             apiCallToAnalysis(symptoms);
-            uncheck_alert.pause();
-            uncheck_alert.currentTime = 0.0;
-            uncheck_alert.play();
+            playSound(uncheck_alert);
         }
     });
 
@@ -50,7 +52,52 @@ $(document).ready(function() {
     $(document).on("click", function() {
         danger_alert.pause();
     });
+
+    // Xoá tất cả checkbox
+    $(document).on('click', '.delete-all-btn a', function() {
+        playSound(uncheck_alert);
+        symptoms = [];
+        $.each($('.chkbox:checked'), function () {
+            $(this).prop('checked', false);
+            $('.delete-all-btn a strong').text(`(${symptoms.length})`);
+            $(this).parent().parent().parent().toggleClass("selected");    // thêm/xoá class seleted
+            $(".diagnostic-content").html(`<p class="diagnostic-content-info">
+                <i class="fas fa-info-circle"></i><br />
+                Vui lòng chọn các tình trạng máy tính của bạn !!!
+            </p>`);
+        });
+    });
+
+    // Hiển thị diễn giải
+    $(document).on ('click', '.explain-btn', function() {
+        if ($(this).children().hasClass('rotated')) {
+            $(this).children().css({
+                "transform": "rotate(0deg)"
+            });
+            $(this).children().removeClass('rotated');
+            console.log('here');
+        } else {
+            $(this).children().css({
+                "transform": "rotate(180deg)"
+            });
+            $(this).children().addClass('rotated');
+            console.log('over here');
+        }
+        $('.explain-content').slideToggle(550);
+    });
 });
+
+/**
+ * chạy âm thanh truyền vào
+ * @param {chạy âm thanh} sound 
+ */
+function playSound(sound)
+{
+    sound.pause();
+    sound.currentTime = 0.0;
+    sound.play();
+}
+
 /**
  * Xoá một symptom code ra khỏi mảng symptoms
  * @param {mảng mã triệu chứng} arr
@@ -114,5 +161,10 @@ function apiCallToAnalysis(symptoms) {
                 $(".diagnostic-content").html(html);
             }
         });
+    } else {
+        $(".diagnostic-content").html(`<p class="diagnostic-content-info">
+                <i class="fas fa-info-circle"></i><br />
+                Vui lòng chọn các tình trạng máy tính của bạn !!!
+        </p>`);
     }
 }

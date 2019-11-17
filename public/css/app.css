@@ -12099,19 +12099,22 @@ table tbody tr td {
  */
 
 .diagnostic-content::-webkit-scrollbar-track,
-.table-fixed tbody::-webkit-scrollbar-track {
+.table-fixed tbody::-webkit-scrollbar-track,
+::-webkit-scrollbar-track {
   background-color: #8cc1d1;
   border-radius: 3px;
 }
 
 .diagnostic-content::-webkit-scrollbar,
-.table-fixed tbody::-webkit-scrollbar {
+.table-fixed tbody::-webkit-scrollbar,
+::-webkit-scrollbar {
   width: 10px;
   background-color: #a3bee2;
 }
 
 .diagnostic-content::-webkit-scrollbar-thumb,
-.table-fixed tbody::-webkit-scrollbar-thumb {
+.table-fixed tbody::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb {
   border-radius: 3px;
   background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.44, #8fcfdc), color-stop(0.72, #87d9db), color-stop(0.86, #85dbd9));
   cursor: pointer;
@@ -12187,8 +12190,26 @@ table tbody tr td {
           user-select: none;
 }
 
+.card .card-body .delete-all-btn {
+  text-align: right;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.card .card-body .delete-all-btn a {
+  padding: 3px 7px;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.card .card-body .delete-all-btn a:hover {
+  border: 1px solid #1d68a7;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
 .diagnostic-box .card .card-body .diagnostic-content {
-  height: 400px;
+  height: 430px;
   overflow-y: auto;
   width: 100%;
   padding: 15px;
@@ -12227,6 +12248,38 @@ table tbody tr td {
   border-color: #7fd5d2;
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
+}
+
+.explain-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.explain-container a {
+  color: #618ca0;
+  font-variant: small-caps;
+  font-weight: 900;
+  font-size: 1.5em;
+  width: 100%;
+  height: 100%;
+  padding: 7px 0px;
+  display: inline-block;
+  border-radius: 5px;
+  border: 2px solid #618ca0;
+}
+
+.explain-container a i {
+  -webkit-transition: all 0.55s ease-out;
+  transition: all 0.55s ease-out;
+}
+
+.explain-container .explain-content {
+  display: none;
+  height: 500px;
+  border: 1px solid #618ca0da;
+  background: rgba(240, 255, 255, 0.4);
+  border-radius: 7px;
+  box-shadow: inset 0px 0px 13px 1px rgba(97, 140, 160, 0.4);
 }
 
 /*
