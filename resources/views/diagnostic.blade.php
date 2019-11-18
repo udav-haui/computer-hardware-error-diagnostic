@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title')Tìm lỗi phần cứng
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

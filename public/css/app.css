@@ -12101,7 +12101,7 @@ table tbody tr td {
 .diagnostic-content::-webkit-scrollbar-track,
 .table-fixed tbody::-webkit-scrollbar-track,
 ::-webkit-scrollbar-track {
-  background-color: #8cc1d1;
+  background-color: #78b5dcd9;
   border-radius: 3px;
 }
 
@@ -12109,14 +12109,14 @@ table tbody tr td {
 .table-fixed tbody::-webkit-scrollbar,
 ::-webkit-scrollbar {
   width: 10px;
-  background-color: #a3bee2;
+  background-color: #cfddf3;
 }
 
 .diagnostic-content::-webkit-scrollbar-thumb,
 .table-fixed tbody::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-thumb {
   border-radius: 3px;
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.44, #8fcfdc), color-stop(0.72, #87d9db), color-stop(0.86, #85dbd9));
+  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.44, #3490dcb8), color-stop(0.72, #4291f5de), color-stop(0.86, #3e8cecd6));
   cursor: pointer;
 }
 
@@ -12145,7 +12145,7 @@ table tbody tr td {
 
 .table-fixed tbody tr.selected th,
 .table-fixed tbody tr.selected td {
-  background: #86ceda;
+  background: #91cff1ba;
   font-size: 1.4em;
   font-weight: 700;
 }
@@ -12162,11 +12162,12 @@ table tbody tr td {
 
 .table-fixed tbody tr th {
   text-align: center;
+  border-top-left-radius: 4px;
 }
 
 .table-fixed tbody tr:hover td,
 .table-fixed tbody tr:hover th {
-  background: #8fc5d766;
+  background: #69b8e2cc;
   font-size: 1.4em;
   font-weight: 700;
 }
@@ -12176,7 +12177,7 @@ table tbody tr td {
 }
 
 .card {
-  background: #92cedd3d;
+  background: #ffffffcf;
   border: none;
   box-shadow: 5px 15px 20px 0px rgba(0, 0, 0, 0.4);
 }
@@ -12429,7 +12430,7 @@ table tbody tr td {
 }
 
 .explain-container a {
-  color: #618ca0;
+  color: #4f5057;
   font-variant: small-caps;
   font-weight: 900;
   font-size: 1.5em;
@@ -12437,11 +12438,10 @@ table tbody tr td {
   height: 100%;
   padding: 7px 0px;
   display: inline-block;
-  border-radius: 5px;
-  border: 2px solid #618ca0;
   text-align: center;
-  -webkit-transition: all 0.55s ease-out;
-  transition: all 0.55s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  background: #ffffffe8;
 }
 
 .explain-container a i {
@@ -12450,17 +12450,18 @@ table tbody tr td {
 }
 
 .explain-container a:hover {
-  color: #e2e2e2;
-  background: rgba(110, 110, 110, 0.4);
-  border-width: 3px;
-  border-color: #e2e2e2;
+  color: #ffffff;
+  background: #0429a5;
+  box-shadow: 5px 7px 20px 0px rgba(255, 255, 255, 0.4);
+  margin-left: 3px;
+  margin-top: 5px;
 }
 
 .explain-container .explain-content {
   display: none;
   height: 500px;
   border: 1px solid #618ca0da;
-  background: rgba(240, 255, 255, 0.4);
+  background: #ffffffcf;
   border-radius: 7px;
   box-shadow: inset 0px 0px 13px 1px rgba(97, 140, 160, 0.4);
   overflow-y: auto;
@@ -12495,8 +12496,8 @@ table tbody tr td {
 }
 
 .explain-container .explain-content .explain-content-block p {
-  background-image: -webkit-gradient(linear, left top, right top, color-stop(30%, #a1dede), color-stop(30%, #a1dede), color-stop(40%, #b3cfe2));
-  background-image: linear-gradient(to right, #a1dede 30%, #a1dede 30%, #b3cfe2 40%);
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(15%, #b6d2e4), color-stop(40%, #7ec0ea), color-stop(80%, #b3cfe2));
+  background-image: linear-gradient(to right, #b6d2e4 15%, #7ec0ea 40%, #b3cfe2 80%);
   padding: 5px 15px;
 }
 
@@ -12509,9 +12510,8 @@ table tbody tr td {
 */
 
 body {
-  background: #74ebd5;
-  background: -webkit-gradient(linear, left top, right top, from(#74ebd5), to(#acb6e5));
-  background: linear-gradient(to right, #74ebd5, #acb6e5);
+  background: url(/images/bg2.jpg?405c5d825aba0176ab94f815b23b37d8) no-repeat center;
+  background-size: cover;
   min-height: 100vh;
 }
 
