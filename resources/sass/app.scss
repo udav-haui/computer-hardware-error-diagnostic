@@ -168,6 +168,124 @@ table {
                     i {
                         font-size: 4em;
                     }
+                    i.fa-tada {
+                        transform-origin: center;
+                        animation: tada 1.5s infinite;
+                        -moz-animation: tada 1.5s infinite;
+                        -webkit-animation: tada 1.5s infinite;
+                        -o-animation: tada 1.5s infinite;
+                    }
+                    @keyframes tada {
+                        0% {
+                            transform: rotate(0deg);
+                            opacity: 1;
+                        }
+                        1% {
+                            transform: rotate(2deg);
+                            opacity: 0.02;
+                            color: #49505b;
+                        }
+                        2% {
+                            transform: rotate(4deg);
+                            opacity: 0.04;
+                        }
+                        3% {
+                            transform: rotate(6deg);
+                            opacity: 0.06;
+                        }
+                        5% {
+                            transform: rotate(10deg);
+                            opacity: 0.1;
+                        }
+                        10% {
+                            transform: rotate(20deg);
+                            opacity: 0.2;
+                        }
+                        15% {
+                            transform: rotate(30deg);
+                            opacity: 0.3;
+                        }
+                        20% {
+                            transform: rotate(40deg);
+                            opacity: 0.4;
+                        }
+                        25% {
+                            transform: rotate(50deg);
+                            opacity: 0.5;
+                        }
+                        30% {
+                            transform: rotate(60deg);
+                            opacity: 0.6;
+                        }
+                        35% {
+                            transform: rotate(70deg);
+                            opacity: 0.7;
+                        }
+                        40% {
+                            transform: rotate(80deg);
+                            opacity: 0.8;
+                        }
+                        45% {
+                            transform: rotate(90deg);
+                            opacity: 0.9;
+                        }
+                        50% {
+                            transform: rotate(100deg);
+                            opacity: 1;
+                        }
+                        55% {
+                            transform: rotate(90deg);
+                            opacity: 0.9;
+                        }
+                        60% {
+                            transform: rotate(80deg);
+                            opacity: 0.8;
+                        }
+                        65% {
+                            transform: rotate(70deg);
+                            opacity: 0.7;
+                        }
+                        70% {
+                            transform: rotate(60deg);
+                            opacity: 0.6;
+                        }
+                        75% {
+                            transform: rotate(50deg);
+                            opacity: 0.5;
+                        }
+                        80% {
+                            transform: rotate(40deg);
+                            opacity: 0.4;
+                        }
+                        85% {
+                            transform: rotate(30deg);
+                            opacity: 0.3;
+                        }
+                        90% {
+                            transform: rotate(20deg);
+                            opacity: 0.2;
+                        }
+                        95% {
+                            transform: rotate(10deg);
+                            opacity: 0.1;
+                        }
+                        97% {
+                            transform: rotate(6deg);
+                            opacity: 0.06;
+                        }
+                        98% {
+                            transform: rotate(4deg);
+                            opacity: 0.04;
+                        }
+                        99% {
+                            transform: rotate(2deg);
+                            opacity: 0.02;
+                        }
+                        100% {
+                            transform: rotate(0deg);
+                            opacity: 1;
+                        }
+                    }
                 }
                 .item {
                     font-size: 1.25em;
@@ -192,7 +310,6 @@ table {
 }
 
 .explain-container {
-    text-align: center;
     margin-top: 30px;
     a {
         color: #618ca0;
@@ -205,9 +322,16 @@ table {
         display: inline-block;
         border-radius: 5px;
         border: 2px solid #618ca0;
-        
+        text-align: center;
+        transition: all 0.55s ease-out;
         i {
-            transition: all .55s ease-out;
+            transition: all 0.55s ease-out;
+        }
+        &:hover {
+            color: #e2e2e2;
+            background: rgba(110, 110, 110, 0.4);
+            border-width: 3px;
+            border-color: #e2e2e2;
         }
     }
     .explain-content {
@@ -217,6 +341,41 @@ table {
         background: rgba(240, 255, 255, 0.4);
         border-radius: 7px;
         box-shadow: inset 0px 0px 13px 1px rgba(#618ca0, 0.4);
+        overflow-y: auto;
+        .explain-content-block {
+            font-size: 1.5em;
+            border-bottom: 1px solid #86dada;
+            padding-top: 15px;
+            ul {
+                margin-left: 30px;
+                list-style: none;
+                li {
+                    ul.conclude-explain {
+                        list-style: circle;
+                    }
+                    span {
+                        position: relative;
+                    }
+                    i.fa-share {
+                        position: absolute;
+                        font-size: 1.25em;
+                        top: 1px;
+                        left: 15px;
+                        transform: rotateX(180deg);
+                    }
+                }
+            }
+            p {
+                //background: #bfdcedc9;
+                background-image: linear-gradient(
+                    to right,
+                    #a1dede 30%,
+                    #a1dede 30%,
+                    #b3cfe2 40%
+                );
+                padding: 5px 15px;
+            }
+        }
     }
 }
 /*
@@ -233,3 +392,156 @@ body {
     background: linear-gradient(to right, #74ebd5, #acb6e5);
     min-height: 100vh;
 }
+
+/*
+*
+* =============================================
+* LOADING SCREEN
+* =============================================
+*
+*/
+
+@mixin obj($w, $h, $bg) {
+    width: $w;
+    height: $h;
+    background: $bg;
+}
+
+@mixin anim($listName, $delay) {
+    @each $currentBox in $listName {
+        $i: index($listName, $currentBox);
+        &:nth-child(#{$currentBox}) {
+            animation-delay: 0.1s * $i + $delay;
+        }
+    }
+}
+
+body {
+    position: relative;
+}
+
+.loading-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    // background: #212121;
+    background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
+    .wrapper {
+        @include obj(auto, auto, null);
+        .animate {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            margin: auto;
+            /* 	width: 350px; */
+            animation: load 0.85s infinite 0s ease-in-out;
+            animation-direction: alternate;
+            color: beige;
+            text-shadow: 0 0 1px white;
+            font-size: 2em;
+            font-variant: small-caps;
+            padding-top: 35px;
+        }
+        ul {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            animation: rot 16s linear infinite;
+            list-style: none;
+            @keyframes rot {
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            li {
+                @include obj(40px, 40px, #651fff);
+                border-radius: 4px;
+                box-shadow: 0 0 1px #fff, 0 0 5px #651fff, 0 0 10px #651fff,
+                    0 0 15px #651fff, 0 0 25px #651fff, 0 0 55px #651fff;
+                animation: scale 0.8s linear alternate infinite;
+
+                @keyframes scale {
+                    100% {
+                        transform: scale(0.1);
+                        opacity: 0;
+                    }
+                }
+                @for $i from 1 through 25 {
+                    &:nth-child(#{$i}) {
+                        z-index: 25 - $i;
+                    }
+                }
+                @for $i from 1 through 5 {
+                    &:nth-child(#{$i}) {
+                        animation-delay: 0.1s * $i;
+                    }
+                    &:nth-child(#{$i + 6}) {
+                        @if ($i<5) {
+                            animation-delay: 0.1s * $i + 0.2s;
+                        }
+                    }
+                    &:nth-child(#{$i + 12}) {
+                        @if ($i<4) {
+                            animation-delay: 0.1s * $i + 0.4s;
+                        }
+                    }
+                    &:nth-child(#{$i + 18}) {
+                        @if ($i<3) {
+                            animation-delay: 0.1s * $i + 0.6s;
+                        }
+                    }
+                    &:nth-child(#{$i + 23}) {
+                        @if ($i<2) {
+                            animation-delay: 0.1s * $i + 0.8s;
+                        }
+                    }
+                }
+
+                $fCol: 1 6 11 16 21;
+                @include anim($fCol, 0);
+
+                $sCol: 7 12 17 22;
+                @include anim($sCol, 0.2s);
+
+                $tCol: 13 18 23;
+                @include anim($tCol, 0.4s);
+
+                $foCol: 19 24;
+                @include anim($foCol, 0.6s);
+
+                &:nth-child(25) {
+                    animation-delay: 0.9s;
+                }
+            }
+        }
+    }
+}
+
+@keyframes load {
+    0% {
+        opacity: 0.08;
+        /*         font-size: 10px; */
+        /* 				font-weight: 400; */
+        filter: blur(5px);
+        letter-spacing: 3px;
+    }
+    100% {
+        /*         opacity: 1; */
+        /*         font-size: 12px; */
+        /* 				font-weight:600; */
+        /* 				filter: blur(0); */
+    }
+}
+
+/*
+*
+* =============================================
+* END LOADING SCREEN
+* =============================================
+*
+*/

@@ -2,11 +2,11 @@ var uncheck_alert = new Audio("sounds/what.mp3");
 var clicked_alert = new Audio("sounds/tweet.mp3");
 var danger_alert = new Audio("sounds/Cut_danger_alert.mp3");
 var sound_alert = new Audio("sounds/system-fault.mp3");
+var error_count = 0;
+// tạo mảng Giả Thiết
+var symptoms = [];
 
 $(document).ready(function() {
-    // tạo mảng Giả Thiết
-    var symptoms = [];
-    
     // click vào tr để checkbox
     $(".record_table tr").click(function(event) {
         if (event.target.type !== "checkbox") {
@@ -32,7 +32,7 @@ $(document).ready(function() {
             apiCallToAnalysis(symptoms);    // Gọi hàm phân tích
             // DOM
             $(this).parent().parent().parent().toggleClass("selected");    // thêm/xoá class seleted
-            $('.delete-all-btn a strong').text(`(${symptoms.length})`);
+            $('.delete-all-btn a strong').text(`( ${symptoms.length} )`);
             // END DOM
             playSound(clicked_alert);
         } else {
@@ -41,7 +41,7 @@ $(document).ready(function() {
             symptoms = arrayRemove(symptoms, $(this).attr("data-value"));
             // DOM
             $(this).parent().parent().parent().toggleClass("selected");    // thêm/xoá class seleted
-            $('.delete-all-btn a strong').text(`(${symptoms.length})`);
+            $('.delete-all-btn a strong').text(`( ${symptoms.length} )`);
             // END DOM
             apiCallToAnalysis(symptoms);
             playSound(uncheck_alert);
@@ -59,13 +59,20 @@ $(document).ready(function() {
         symptoms = [];
         $.each($('.chkbox:checked'), function () {
             $(this).prop('checked', false);
-            $('.delete-all-btn a strong').text(`(${symptoms.length})`);
+            $('.delete-all-btn a strong').text(`( ${symptoms.length} )`);
             $(this).parent().parent().parent().toggleClass("selected");    // thêm/xoá class seleted
             $(".diagnostic-content").html(`<p class="diagnostic-content-info">
                 <i class="fas fa-info-circle"></i><br />
                 Vui lòng chọn các tình trạng máy tính của bạn !!!
             </p>`);
         });
+        $(".explain-content").slideUp(550).html('');
+        $('.explain-container').fadeOut(100);
+        var explainBtn = $('.explain-btn');
+        explainBtn.children().css({
+            "transform": "rotate(0deg)"
+        });
+        explainBtn.children().removeClass('rotated');
     });
 
     // Hiển thị diễn giải
@@ -75,13 +82,11 @@ $(document).ready(function() {
                 "transform": "rotate(0deg)"
             });
             $(this).children().removeClass('rotated');
-            console.log('here');
         } else {
             $(this).children().css({
                 "transform": "rotate(180deg)"
             });
             $(this).children().addClass('rotated');
-            console.log('over here');
         }
         $('.explain-content').slideToggle(550);
     });
@@ -127,7 +132,7 @@ function apiCallToAnalysis(symptoms) {
                 var html = ``;
                 if (response.data.length === 0) {
                     html += `<p class="diagnostic-content-info">
-                            <i class="far fa-times-circle"></i><br />
+                            <i class="far fa-times-circle fa-tada"></i><br />
                             Dữ liệu chưa đầy đủ, hệ thống không thể phân tích được cho bạn !!!</p>`;
                 } else {
                     response.data.forEach(element => {
@@ -156,9 +161,12 @@ function apiCallToAnalysis(symptoms) {
                             }
                         });
                     }
-                    sound_alert.play();
+                    if (response.data.length !== error_count) {sound_alert.play();}
+                    error_count = response.data.length;
                 }
                 $(".diagnostic-content").html(html);
+                $(".explain-content").html(response.html);
+                $('.explain-container').fadeIn(100);
             }
         });
     } else {
@@ -166,5 +174,7 @@ function apiCallToAnalysis(symptoms) {
                 <i class="fas fa-info-circle"></i><br />
                 Vui lòng chọn các tình trạng máy tính của bạn !!!
         </p>`);
+        $(".explain-content").html(``);
+        $('.explain-container').fadeOut(100);
     }
 }

@@ -34,6 +34,9 @@ class DiagnosticController extends Controller
         $temp_symptoms = $symptoms;
         // Tạo tập SAT bằng lọc những luật khả dụng
         $SAT = $this->rules_filter($rules, $temp_symptoms);
+
+        $index = 1;
+        $htmlText = $this->explain(0, $SAT, $temp_symptoms);
         /**
          * Trong khi tập SAT vẫn còn luật chưa dùng đến
          */
@@ -47,6 +50,8 @@ class DiagnosticController extends Controller
             $temp = $this->rules_filter($rules, $temp_symptoms);
             // gộp mảng luật mới tìm đc vào mảng tập SAT cũ
             $SAT = array_merge($SAT, $temp);
+            $htmlText = $htmlText . $this->explain($index, $SAT, $temp_symptoms);
+            $index++;
         };
 
         $result = [];
@@ -60,12 +65,16 @@ class DiagnosticController extends Controller
                 array_push($result, $conclude);
             }
         }
+
+        $htmlText = $htmlText . $this->concludeExplain($result);
+
         /**
          * trả kết quả dưới dạng json
          */
         return response()->json([
             'status_code' => 200,
-            'data' => $result
+            'data' => $result,
+            'html' => $htmlText
         ]);
     }
 
@@ -122,7 +131,7 @@ class DiagnosticController extends Controller
     public function rules_filter($rules, $temp_symptoms)
     {
         // Biến cờ kiểm tra nếu các biến trogn tập đang xét với các biến của vế trái luật
-        $isExit = true;
+        $isExist = true;
         // khởi tạo mảg lưu trữ các luật khả dụng
         $filteredRules = [];
         foreach($rules as $rule) {  // duyệt lần lượt các luật trogng tập luật
@@ -134,17 +143,17 @@ class DiagnosticController extends Controller
                      * thiết thì đặt biết cờ bằng false
                      */
                     if (!in_array($value, $temp_symptoms)) {
-                        $isExit = false;
+                        $isExist = false;
                     }
                 }
                 /**
                  * nếu tất cả các biến của vế trái luật đều có trong tập GT thì thêm
                  * luật đó vào tập luật khả dụng.
                  */
-                if ($isExit) {
+                if ($isExist) {
                     array_push($filteredRules, $rule);
                 }
-                $isExit = true; // gán lại giá trị true cho biến cờ
+                $isExist = true; // gán lại giá trị true cho biến cờ
             }
         }
         return $filteredRules;
@@ -182,5 +191,79 @@ class DiagnosticController extends Controller
         $luat->right[] = $rule_array[1];  // Vế phải
         $luat->left = preg_split("/ \^ /", $rule_array[0]); // mảng các gt vế trái
         return $luat;
+    }
+
+    /**
+     * Diễn giải quá trình suy diễn tiến
+     * @param index,SAT,temp_symptoms
+     * @return htmltext
+     */
+    public function explain($index, $SAT, $temp_symptoms)
+    {
+        $htmlText = "";
+        $temp_symptomsText = "";
+        if ($index === 0) {
+            $htmlText = '<div class="explain-content-block"><p><i class="far fa-hand-point-right"></i>&nbsp;Bắt đầu</p><ul>';
+            $temp_symptomsText = '<li><i class="fas fa-chevron-down"></i>&nbsp;TG = GT = { ';
+        }
+        else {
+            $htmlText = '<div class="explain-content-block"><p><i class="far fa-play-circle"></i>&nbsp;Lần '. $index . '</p><ul>';
+            $temp_symptomsText = '<li><i class="fas fa-chevron-down"></i>&nbsp;TG = {';
+        }
+        $temp_symptomsText = $temp_symptomsText . implode(", ", $temp_symptoms);    // Tách mảng temp_symptoms thành chuỗi các phần tử cách nhau bởi ","
+        $temp_symptomsText = $temp_symptomsText . " }</li>";
+        $htmlText = $htmlText. $temp_symptomsText;
+        $tempSat = [];
+        foreach ($SAT as $item) {
+            if (!$item->isUsed && !in_array($item->rule_code, $tempSat)) {
+                array_push($tempSat, $item->rule_code);
+            }
+        }
+        if (count($tempSat) > 0) {
+            $satText = '<li><i class="fas fa-chevron-down"></i>&nbsp;SAT = LOC(R,TG) = { ';
+            $satText = $satText . implode(", ", $tempSat);
+            $satText = $satText . ' }</li>';
+            $htmlText = $htmlText . $satText;
+            $htmlText = $htmlText . '<li><i class="fas fa-chevron-down"></i>&nbsp;Lấy luật '. $tempSat[0] . ' trong SAT</li>';
+            $htmlText = $htmlText . '<li><i class="fas fa-arrow-right"></i>&nbsp;TG = TG U { ';
+            $concludeText = "";
+            foreach ($SAT as $i) {
+                if (!$i->isUsed && in_array($i->rule_code, $tempSat)) {
+                    $concludeText = implode(", ", $i->right);
+                    $htmlText = $htmlText.$concludeText.' } = { '.implode(", ", $temp_symptoms).', '.$concludeText.' }</li>';
+                    break;
+                }
+            }
+        } else {
+            $htmlText = $htmlText . '<li><i class="fas fa-arrow-right"></i>&nbsp;SAT={ ø } => Dừng</li>';
+        }
+        $htmlText = $htmlText . '</ul></div>';
+        return ($htmlText);
+    }
+
+    /**
+     * Diễn giải kết luận
+     * @param mảng kết quả
+     * @return htmlText
+     */
+    public function concludeExplain($result) 
+    {
+        $htmlText = '';
+        if (count($result) === 0) {
+            $htmlText = '<div class="explain-content-block"><p><i class="far fa-hand-point-right"></i>&nbsp;Kết thúc</p><ul><li><i class="fas fa-low-vision"></i>&nbsp;Không tìm thấy kết luận !!!</li></ul></div>';
+        } else {
+            $htmlText = '<div class="explain-content-block"><p><i class="far fa-hand-point-right"></i>&nbsp;Kết thúc</p><ul>';
+            $t = [];
+            foreach ($result as $i) {
+                array_push($t, $i['conclude_code']);
+            }
+            $htmlText = $htmlText.'<li><i class="fas fa-arrow-right"></i>&nbsp;KL = { '.implode(", ", $t).' }</li>';
+            $htmlText = $htmlText . '<li><span><i class="fas fa-share"></i><ul class="conclude-explain">';
+            foreach($result as $i) {
+                $htmlText = $htmlText . '<li><em><strong>'. $i['conclude_code']. '</strong></em> : '. $i['description'].'</li>';
+            }
+            $htmlText = $htmlText . '</ul></span></li>';
+        }
+        return ($htmlText.'</ul></div>');
     }
 }
