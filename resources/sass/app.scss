@@ -1,5 +1,5 @@
 // Fonts
-// @import url("https://fonts.googleapis.com/css?family=Nunito");
+@import "nunito";
 
 // Variables
 @import "variables";
@@ -7,7 +7,11 @@
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 // FA5
-@import "~@fortawesome/fontawesome-free/css/all.min.css";
+// $fa-font-path: "../webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
 
 // Pretty checkbox
 @import "~pretty-checkbox/src/pretty-checkbox.scss";

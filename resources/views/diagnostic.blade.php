@@ -37,7 +37,7 @@
         </div>
         <div class="col-md-5 diagnostic-box">
             <div class="card">
-                <div class="card-header">Chẩn đoán</div>
+                <div class="card-header"><i class="fas fa-stethoscope"></i> Chẩn đoán</div>
 
                 <div class="card-body">
                     <div class="diagnostic-content">
