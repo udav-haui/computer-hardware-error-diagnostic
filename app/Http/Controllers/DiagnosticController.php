@@ -208,7 +208,7 @@ class DiagnosticController extends Controller
         }
         else {
             $htmlText = '<div class="explain-content-block"><p><i class="far fa-play-circle"></i>&nbsp;Lần '. $index . '</p><ul>';
-            $temp_symptomsText = '<li><i class="fas fa-chevron-down"></i>&nbsp;TG = {';
+            $temp_symptomsText = '<li><i class="fas fa-chevron-down"></i>&nbsp;TG = { ';
         }
         $temp_symptomsText = $temp_symptomsText . implode(", ", $temp_symptoms);    // Tách mảng temp_symptoms thành chuỗi các phần tử cách nhau bởi ","
         $temp_symptomsText = $temp_symptomsText . " }</li>";
@@ -220,7 +220,7 @@ class DiagnosticController extends Controller
             }
         }
         if (count($tempSat) > 0) {
-            $satText = '<li><i class="fas fa-chevron-down"></i>&nbsp;SAT = LOC(R,TG) = { ';
+            $satText = '<li><i class="fas fa-chevron-down"></i>&nbsp;SAT = LỌC(R,TG) = { ';
             $satText = $satText . implode(", ", $tempSat);
             $satText = $satText . ' }</li>';
             $htmlText = $htmlText . $satText;

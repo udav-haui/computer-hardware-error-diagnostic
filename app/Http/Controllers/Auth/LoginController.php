@@ -19,13 +19,13 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
-
+    protected $username;
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/diagnostic';
 
     /**
      * Create a new controller instance.
@@ -35,5 +35,21 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->username = $this->findUsername();
+    }
+
+    public function findUsername()
+    {
+        $login = request()->input;
+        $logType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        request()->merge([$logType=>$login]);
+        
+        return $logType;
+    }
+
+    public function username()
+    {
+        return $this->username;
     }
 }
